@@ -29,12 +29,18 @@ struct ContentView: View {
     
 }
 
-struct EmojiCard: View{
+struct EmojiCard: View {
     var content: String;
     @State var isFaceUp: Bool = true;
+    
     var body: some View {
-        ZStack{
-            let shape = Rectangle().foregroundColor(.green).frame(width:100);
+        ZStack {
+            // RoundedRectangle instead of just rectangle
+            let shape = RoundedRectangle(cornerRadius: 10)
+                .fill(isFaceUp ? .white : .green)
+                .frame(width: 100, height: 100) // added height
+                .shadow(radius: 10) // added a shadow
+                
             Text(content).font(.system(size:70) ).fontWeight(.bold)
             if isFaceUp {
                 shape.opacity(0)
@@ -42,14 +48,11 @@ struct EmojiCard: View{
             else{
                 shape.opacity(1)
             }
-            
-        }.padding(.horizontal)
-            .onTapGesture {
-                
-                isFaceUp = !isFaceUp
+        }
+        .padding(5)
+        .onTapGesture {
+                isFaceUp.toggle()
             }
-      
-        
     }
 }
 
